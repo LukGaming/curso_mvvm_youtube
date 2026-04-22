@@ -1,7 +1,7 @@
 class LoginRequest {
   final String username;
   final String password;
-  final String expiresInMins;
+  final int expiresInMins;
 
   const LoginRequest({
     required this.username,
