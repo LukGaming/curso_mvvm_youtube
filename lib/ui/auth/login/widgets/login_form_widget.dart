@@ -1,4 +1,5 @@
 import 'package:curso_mvvm_youtube/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:curso_mvvm_youtube/ui/home/widgets/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginFormWidget extends StatefulWidget {
@@ -13,6 +14,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.loginViewmodel.login.addListener(_onResult);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,24 +59,70 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               ),
             ],
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-            onPressed: _validateForm,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Login", style: TextStyle(color: Colors.white)),
-            ),
+          ListenableBuilder(
+            listenable: widget.loginViewmodel.login,
+            builder: (context, child) {
+              final running = widget.loginViewmodel.login.running;
+
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                ),
+                onPressed: _validateForm,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: running
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 1,
+                        )
+                      : Text("Login", style: TextStyle(color: Colors.white)),
+                ),
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  void _validateForm() {
+  void _validateForm() async {
     if (_formKey.currentState?.validate() == true) {
       final username = usernameController.text;
       final password = passwordController.text;
-      widget.loginViewmodel.login((username, password));
+      await widget.loginViewmodel.login.execute((username, password));
     }
+  }
+
+  void _onResult() {
+    final command = widget.loginViewmodel.login;
+    if (command.error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("Usuários ou senhas incorretos"),
+        ),
+      );
+    }
+    if (command.completed) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+        (route) => false,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("Logado com sucesso!"),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.loginViewmodel.login.removeListener(_onResult);
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }
