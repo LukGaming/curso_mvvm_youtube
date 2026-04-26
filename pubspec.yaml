@@ -37,6 +37,7 @@ dependencies:
   dio: ^5.9.2
   go_router: ^17.2.2
   get_it: ^9.2.1
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
