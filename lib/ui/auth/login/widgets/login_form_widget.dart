@@ -118,7 +118,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       );
     }
     if (command.completed) {
-      context.go(Routes.home);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.green,
