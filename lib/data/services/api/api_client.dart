@@ -1,5 +1,6 @@
 import 'package:curso_mvvm_youtube/data/services/api/models/login_request.dart';
 import 'package:curso_mvvm_youtube/data/services/api/models/login_response.dart';
+import 'package:curso_mvvm_youtube/domain/models/product.dart';
 import 'package:curso_mvvm_youtube/utils/result.dart';
 import 'package:dio/dio.dart';
 
@@ -22,6 +23,23 @@ class ApiClient {
         return Result.ok(result);
       }
       return Result.error(Exception("Ocorreu um erro ao efetuar login"));
+    } on Exception catch (error) {
+      return Result.error(error);
+    }
+  }
+
+  Future<Result<List<Product>>> getProducts() async {
+    try {
+      final endpoint = "$_apiUrl/products";
+      final response = await _dio.get(endpoint);
+      if (response.statusCode == 200) {
+        final productsJson = (response.data["products"] as List);
+        final products = productsJson
+            .map((product) => Product.fromJson(product))
+            .toList();
+        return Result.ok(products);
+      }
+      return Result.error(Exception("Ocorreu um erro ao buscar produtos"));
     } on Exception catch (error) {
       return Result.error(error);
     }
