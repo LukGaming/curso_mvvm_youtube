@@ -53,7 +53,7 @@ class Product {
     description = json['description'];
     category = json['category'];
     price = json['price'];
-    discountPercentage = json['discountPercentage'];
+    discountPercentage = (json['discountPercentage'] as num).toDouble();
     rating = json['rating'];
     stock = json['stock'];
     tags = json['tags'].cast<String>();
