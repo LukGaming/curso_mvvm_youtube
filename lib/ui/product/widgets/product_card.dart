@@ -1,4 +1,6 @@
 import 'package:curso_mvvm_youtube/domain/models/product.dart';
+import 'package:curso_mvvm_youtube/ui/cart/viewmodels/cart_viewmodel.dart';
+import 'package:curso_mvvm_youtube/ui/cart/widgets/add_product_button.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -91,27 +93,7 @@ class ProductCard extends StatelessWidget {
               Text("EM ESTOQUE"),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(4),
-                      ),
-                    ),
-                    backgroundColor: WidgetStatePropertyAll(Colors.black),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    "Adicionar ao Carrinho",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          AddProductButton(cartViewmodel: CartViewmodel(), product: product),
         ],
       ),
     );
