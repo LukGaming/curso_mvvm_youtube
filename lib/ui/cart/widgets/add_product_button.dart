@@ -39,7 +39,36 @@ class AddProductButton extends StatelessWidget {
             ],
           );
         }
-        return Text("Já está no carrinho");
+        return Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(4),
+                    ),
+                  ),
+                  backgroundColor: WidgetStatePropertyAll(
+                    const Color.fromARGB(255, 236, 140, 172),
+                  ),
+                ),
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      "Adicionado ao carrinho",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
       },
     );
   }

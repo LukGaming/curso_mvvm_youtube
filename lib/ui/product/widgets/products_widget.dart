@@ -1,10 +1,16 @@
+import 'package:curso_mvvm_youtube/ui/cart/viewmodels/cart_viewmodel.dart';
 import 'package:curso_mvvm_youtube/ui/product/viewmodels/product_viewmodel.dart';
 import 'package:curso_mvvm_youtube/ui/product/widgets/products_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductsWidget extends StatefulWidget {
   final ProductViewmodel productViewmodel;
-  const ProductsWidget({super.key, required this.productViewmodel});
+  final CartViewmodel cartViewmodel;
+  const ProductsWidget({
+    super.key,
+    required this.productViewmodel,
+    required this.cartViewmodel,
+  });
 
   @override
   State<ProductsWidget> createState() => _ProductsWidgetState();
@@ -31,7 +37,10 @@ class _ProductsWidgetState extends State<ProductsWidget> {
         }
         return child!;
       },
-      child: ProductsListWidget(productViewmodel: widget.productViewmodel),
+      child: ProductsListWidget(
+        productViewmodel: widget.productViewmodel,
+        cartViewModel: widget.cartViewmodel,
+      ),
     );
   }
 }
