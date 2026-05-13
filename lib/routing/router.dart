@@ -1,5 +1,6 @@
 import 'package:curso_mvvm_youtube/config/dependencies.dart';
 import 'package:curso_mvvm_youtube/data/repositories/auth/auth_repository.dart';
+import 'package:curso_mvvm_youtube/data/repositories/cart/cart_repository_local.dart';
 import 'package:curso_mvvm_youtube/routing/routes.dart';
 import 'package:curso_mvvm_youtube/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:curso_mvvm_youtube/ui/auth/login/widgets/login_screen.dart';
@@ -24,7 +25,9 @@ GoRouter get router {
       ),
       GoRoute(
         path: Routes.home,
-        builder: (context, state) => HomeScreen(cartViewModel: CartViewmodel()),
+        builder: (context, state) => HomeScreen(
+          cartViewModel: CartViewmodel(cartRepository: CartRepositoryLocal()),
+        ),
       ),
       GoRoute(
         path: Routes.splash,
