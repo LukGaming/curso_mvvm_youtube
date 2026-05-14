@@ -20,7 +20,11 @@ class CartRepositoryLocal extends ChangeNotifier implements CartRepository {
 
   @override
   Future<Result<List<CartItem>>> fetchItems() async {
-    return Result.ok(_items);
+    try {
+      return Result.ok(_items);
+    } finally {
+      notifyListeners();
+    }
   }
 
   @override
